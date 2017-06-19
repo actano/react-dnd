@@ -386,7 +386,11 @@ export default class HTML5Backend {
       return; // eslint-disable-line no-useless-return
     } else {
       // If by this time no drag source reacted, tell browser not to drag.
-      e.preventDefault();
+
+      // comment out preventDefault is is a quick fix for RX-8904
+      // our timeline is using none native mime types, html5 backend cant handle this case
+      // TODO check if there are side effects
+      // e.preventDefault();
     }
   }
 
