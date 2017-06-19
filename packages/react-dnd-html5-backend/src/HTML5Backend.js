@@ -1,4 +1,5 @@
 import defaults from 'lodash/defaults';
+import isFunction from 'lodash/isFunction';
 import shallowEqual from './shallowEqual';
 import EnterLeaveCounter from './EnterLeaveCounter';
 import { isFirefox } from './BrowserDetector';
@@ -163,12 +164,17 @@ export default class HTML5Backend {
   }
 
   getCurrentDropEffect() {
+    const dropEffect = this.getCurrentSourceNodeOptions().dropEffect
+    if (isFunction(dropEffect)) {
+      return dropEffect();
+    }
+
     if (this.isDraggingNativeItem()) {
       // It makes more sense to default to 'copy' for native resources
       return 'copy';
     }
 
-    return this.getCurrentSourceNodeOptions().dropEffect;
+    return dropEffect;
   }
 
   getCurrentSourcePreviewNodeOptions() {
